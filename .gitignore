@@ -1,2 +1,5 @@
 test/
-rplugin/python3/snipconverter/__pycache__/
+__pycache__/
+
+*.py[cod]
+*$py.class

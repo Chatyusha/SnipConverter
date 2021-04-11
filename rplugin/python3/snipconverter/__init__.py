@@ -1,5 +1,6 @@
 import pynvim
 from pathlib import Path
+import subprocess
 from snipconverter.util.vars import Vars
 from snipconverter.converter import Converter
 
@@ -11,10 +12,18 @@ class SnipConverter(object):
         self.vsnip_dir = str(self.plugin_path) + r"/snippets/vsnip"
         self.snip_dir = str(self.plugin_path) + r"/snippets/snip"
         self.vars = util.vars.Vars(nvim)
-        self.converter = Converter(vsnips_dir=)
+        self.converter = Converter(vsnips_dir=self.vsnip_dir,snips_dir=self.snip_dir)
+
+    def vimecho(self,msg: str):
+        self.nvim.command("echo \"" + msg + "\"")
 
 
     @pynvim.command('Damy')
     def damy(self):
         self.nvim.command("echo \"" + str(self.vars.nvim.vars['snip_tabwidth']) + "\"")
 
+    @pynvim.command('LoadSnip')
+    def custom_load_snip(self):
+        self.vimecho("Under Development")
+
+        
