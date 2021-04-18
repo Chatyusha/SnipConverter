@@ -52,6 +52,7 @@ class SnipConV(object):
                     pass
                 elif re.match(self.kwds.abbr,s_line):
                     # get_abbr()
+                    self.SnipDict[self.name]['description'] = self.get_abbr(s_line)
                     pass
                 elif re.match(self.kwds.alias,s_line):
                     self.SnipDict[self.name]['prefix'] += self.get_alias(s_line)
