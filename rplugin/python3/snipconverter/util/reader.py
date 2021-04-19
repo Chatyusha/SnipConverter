@@ -12,13 +12,12 @@ class SnipConV(object):
             self.alias = r"^alias"
             self.delete = r"^delete"
             self.tabspace = r"^    "
-            self.tab = r"^(\t|    )"
+            self.tab = r"^(\t|  )"
             self.empty = r"^\n"
     
     def __init__(self):
         self.kwds = SnipConV.KeyWords()
         self.imports = []
-        self.SnipDict = {}
         self.name = ""
         self.snip_width=4
         self.snip_tabstop=4
@@ -35,7 +34,7 @@ class SnipConV(object):
         }
         """
 
-    def Snip2VScode_dict(self, path) -> dict:
+    def Snip2VScode_dict(self, path, SnipDict) -> dict:
         with open(path) as f:
             #textList = f.read().splitlines()
             for s_line in f:
@@ -46,29 +45,30 @@ class SnipConV(object):
                     pass
                 elif re.match(self.kwds.snippet,s_line):
                     self.name = self.get_snippet(s_line)
-                    self.SnipDict[self.name] = self.make_template(self.name)
+                    SnipDict[self.name] = self.make_template(self.name)
                 elif re.match(self.kwds.options,s_line):
                     # self.get_options(s_line)
                     pass
                 elif re.match(self.kwds.abbr,s_line):
                     # get_abbr()
-                    self.SnipDict[self.name]['description'] = self.get_abbr(s_line)
-                    pass
+                    SnipDict[self.name]['description'] = self.get_abbr(s_line)
                 elif re.match(self.kwds.alias,s_line):
-                    self.SnipDict[self.name]['prefix'] += self.get_alias(s_line)
+                    SnipDict[self.name]['prefix'] += self.get_alias(s_line)
                 elif re.match(self.kwds.delete,s_line):
                     # do_delete ()
                     # delete means over write old snippet
                     pass
-                elif re.match(self.kwds.tabspace,s_line):
+                elif re.match(self.kwds.tab,s_line):
                     # snippet sentences
-                    self.SnipDict[self.name]['body'].append(self.get_sentence(s_line))
-                    pass
+                    try:
+                        SnipDict[self.name]['body'].append(self.get_sentence(s_line))
+                    except:
+                        pass
                 elif re.match(self.kwds.empty,s_line):
                     # print("Empty Line")
                     pass
 
-        return self.SnipDict
+        return SnipDict
 
     def get_snippet(self, line):
         exp = re.match(r"^snippet(\t| )+", line)
@@ -88,9 +88,9 @@ class SnipConV(object):
         return [re.sub(r"\n",'',j) for j in [re.sub(r'^(\t| )+','',i) for i in sp]]
 
     def get_sentence(self, line):
-        exp = re.match(self.kwds.tabspace,line)
+        exp = re.match(self.kwds.tab,line)
         text = re.sub(r"\n",'',line[exp.end():])
-        return re.sub(self.kwds.tabspace,r"\t",text)
+        return re.sub(self.kwds.tab,r"\t",text)
 
     def make_template(self,snipname):
         return {
