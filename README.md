@@ -6,6 +6,16 @@ snippet files for neosnippet convert to snippet files for vim-vsnip
 
 - [vim-vnip](https://github.com/hrsh7th/vim-vsnip)
 
+SnipConverter requires Neovim.
+If `:echo has("python3")` returns `1`, then you have python 3 support; otherwise, see below.
+
+You can enable Python3 interface with pip:
+
+```sh
+pip3 install --user pynvim
+```
+
+
 ## Usage
 
 ### Install Plugin
@@ -58,3 +68,16 @@ let g:vsnip_snippet_dir = expand('~/.vsnip')
 let g:vsnip_snippet_dirs = ["/full/path/to/vim-vsnip/snippets/dir"]
 
 let g:snipconv_autoload = 1
+```
+
+### Example init.vim
+
+[neosnippet-snippets](https://github.com/Shougo/neosnippet-snippets) is installed to `/root/.config/nvim/snippets/snip/`.
+
+```vim
+let g:snip_dirpath = ["/root/.config/nvim/snippets/snip/neosnippet-snippets/neosnippets/"]                                                                                                                                                                
+let g:vsnip_path = "/root/.config/nvim/snippets/vsnip/sconv/"
+let g:snipconv_autoload = 1
+let g:vsnip_snippet_dirs = ['~/.config/nvim/snippets/vsnip/sconv', ]
+let g:vsnip_snippet_dir = '/root/.config/nvim/snippets/vsnip'
+```
