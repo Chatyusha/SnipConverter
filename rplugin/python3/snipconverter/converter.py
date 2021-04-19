@@ -21,8 +21,8 @@ class Converter(object):
                 else output_dir + r"/"
         path = Path(input_filepath)
         filename = path.stem + ".json"
-        self.format.JsonFormat(self.snip_conv.Snip2VScode_dict(input_filepath),
-                output_dir + filename)
+        SnipDict={}
+        self.format.JsonFormat(self.snip_conv.Snip2VScode_dict(input_filepath,SnipDict),output_dir + filename)
 
 
 
