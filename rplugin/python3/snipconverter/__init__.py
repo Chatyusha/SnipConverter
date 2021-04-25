@@ -41,6 +41,7 @@ class SnipConverter(object):
         self.cache.LoadCache()
         diffs=self.cache.GetDiff()
         for i in diffs:
+            self.vimecho(str(i))
             self.converter.Snip2VSnip(i,self.vars.vsnip_path)
         #self.vimecho(str(diffs))
         #self.vimecho("Make Cache file and Under Development")
@@ -54,4 +55,17 @@ class SnipConverter(object):
     @pynvim.command('WriteCache')
     def writecache(self):
         self.cache.WriteCache()
+    
+    @pynvim.command("DeleteCache")
+    def deletecache(self):
+        subprocess.run(['rm',self.plugin_path + '/cache/cache.json'])
+        with open(self.plugin_path + '/cache/cache.json','w') as f:
+            print(subprocess.run(['echo','-n','{}'],encoding='utf-8',stdout=subprocess.PIPE).stdout,file=f)
 
+    @pynvim.command("DeleteVsnipAll")
+    def delete_vsnip_all(self):
+        path = self.nvim.vars['vsnip_path']
+        ls = subprocess.run(['/bin/ls','-a',path],encoding='utf-8',stdout=subprocess.PIPE).stdout.split("\n")[2:-1]
+        #self.vimecho(str(ls))
+        for i in ls:
+            subprocess.run(['rm',path+i])

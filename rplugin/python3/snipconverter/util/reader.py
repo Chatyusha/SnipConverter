@@ -11,16 +11,17 @@ class SnipConV(object):
             self.abbr = r"^abbr"
             self.alias = r"^alias"
             self.delete = r"^delete"
-            self.tabspace = r"^    "
-            self.tab = r"^(\t|  )"
+            self.tabspace = r"^  "
+            self.tab = r"^(\t| )"
             self.empty = r"^\n"
     
     def __init__(self):
         self.kwds = SnipConV.KeyWords()
         self.imports = []
         self.name = ""
-        self.snip_width=4
-        self.snip_tabstop=4
+        self.indent=""
+        self.snip_width=2
+        self.snip_tabstop=2
         """
         {
             "SnipName":{
@@ -44,6 +45,7 @@ class SnipConV(object):
                 elif re.match(self.kwds.comment,s_line):
                     pass
                 elif re.match(self.kwds.snippet,s_line):
+                    self.reset()
                     self.name = self.get_snippet(s_line)
                     SnipDict[self.name] = self.make_template(self.name)
                 elif re.match(self.kwds.options,s_line):
@@ -69,6 +71,9 @@ class SnipConV(object):
                     pass
 
         return SnipDict
+    
+    def reset(self):
+        self.indent=r""
 
     def get_snippet(self, line):
         exp = re.match(r"^snippet(\t| )+", line)
@@ -88,9 +93,15 @@ class SnipConV(object):
         return [re.sub(r"\n",'',j) for j in [re.sub(r'^(\t| )+','',i) for i in sp]]
 
     def get_sentence(self, line):
-        exp = re.match(self.kwds.tab,line)
+        if self.indent == r"":
+            span = re.search(r" +",line).span()
+            width = span[1] - span[0]
+            for i in range(width):
+                self.indent+=" "
+        exp = re.match(self.indent,line)
         text = re.sub(r"\n",'',line[exp.end():])
-        return re.sub(self.kwds.tab,r"\t",text)
+        text = re.sub(r":#:",r":",text)
+        return re.sub(self.indent,r"\t",text)
 
     def make_template(self,snipname):
         return {
