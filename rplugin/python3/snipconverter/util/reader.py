@@ -1,5 +1,6 @@
 import re
 import json
+from pathlib import Path
 
 class SnipConV(object):
     class KeyWords:
@@ -40,7 +41,8 @@ class SnipConV(object):
             #textList = f.read().splitlines()
             for s_line in f:
                 if re.match(self.kwds.include,s_line):
-                    # include_function()
+                    filepath=self.get_include_path(s_line,path)
+                    self.Snip2VScode_dict(filepath,SnipDict)
                     pass
                 elif re.match(self.kwds.comment,s_line):
                     pass
@@ -60,7 +62,7 @@ class SnipConV(object):
                     # do_delete ()
                     # delete means over write old snippet
                     pass
-                elif re.match(self.kwds.tab,s_line):
+                elif re.match(r"(\t| )+",s_line):
                     # snippet sentences
                     try:
                         SnipDict[self.name]['body'].append(self.get_sentence(s_line))
@@ -93,15 +95,29 @@ class SnipConV(object):
         return [re.sub(r"\n",'',j) for j in [re.sub(r'^(\t| )+','',i) for i in sp]]
 
     def get_sentence(self, line):
+        indent_char = ""
         if self.indent == r"":
-            span = re.search(r" +",line).span()
+            if re.match(r" +",line):
+                span = re.match(r" +",line).span()
+                indent_char = " "
+            elif re.match(r"\t+",line):
+                span = re.match(r"(\t)+",line).span()
+                indent_char = "\t"
             width = span[1] - span[0]
             for i in range(width):
-                self.indent+=" "
+                self.indent+=indent_char
         exp = re.match(self.indent,line)
         text = re.sub(r"\n",'',line[exp.end():])
         text = re.sub(r":#:",r":",text)
         return re.sub(self.indent,r"\t",text)
+
+    def get_include_path(self,line, path):
+        parent = str(Path(path).parent)
+        exp = re.match(r"^include(\t| )+",line)
+        filename = re.sub(r"\n",r"",line[exp.end():])
+        if re.search(r".snip$",filename) == None:
+            filename = filename + ".snip"
+        return parent + '/' + filename
 
     def make_template(self,snipname):
         return {
