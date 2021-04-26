@@ -1,6 +1,15 @@
 # SnipConverter
 
-snippet files for neosnippet convert to snippet files for vim-vsnip
+This plugin converts snippet files for [neosnippet](https://github.com/Shougo/neosnippet.vim) to snippet files for [vim-vsnip](https://github.com/hrsh7th/vim-vsnip).
+
+convert snippet files for neosnippet to snippet files for 
+## Supported
+
+|version|state|
+|:-:|:-:|
+|neovim v0.4.3 or before|Unverified|
+|neovim v0.4.4|Verified|
+|vim|Unverified|
 
 ## Requires
 
@@ -78,6 +87,6 @@ let g:snipconv_autoload = 1
 let g:snip_dirpath = ["/root/.config/nvim/snippets/snip/neosnippet-snippets/neosnippets/"]                                                                                                                                                                
 let g:vsnip_path = "/root/.config/nvim/snippets/vsnip/sconv/"
 let g:snipconv_autoload = 1
-let g:vsnip_snippet_dirs = ['~/.config/nvim/snippets/vsnip/sconv', ]
+let g:vsnip_snippet_dirs = ['/.config/nvim/snippets/vsnip/sconv', ]
 let g:vsnip_snippet_dir = '/root/.config/nvim/snippets/vsnip'
 ```
