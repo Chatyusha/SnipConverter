@@ -2,7 +2,6 @@
 
 This plugin converts snippet files for [neosnippet](https://github.com/Shougo/neosnippet.vim) to snippet files for [vim-vsnip](https://github.com/hrsh7th/vim-vsnip).
 
-convert snippet files for neosnippet to snippet files for 
 ## Supported
 
 |version|state|
