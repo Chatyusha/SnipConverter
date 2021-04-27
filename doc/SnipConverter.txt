@@ -1,0 +1,71 @@
+*SnipConverter* *sconv*
+
+==============================================================================
+Version : 1.0.0
+Author: Chatyusha <hirounicat76@gmail.com>
+License: MIT license
+
+CONTENTS                             *SnipConverter-Contents* *sconv-contents*
+DESCRIPTION                     *SnipConverter-Description* *sconv-description*
+VARIABLES                            *SnipConverter-variable* *sconv-variable*
+COMMANDS                             *SnipConverter-commands* *sconv-commands*
+CHANGELOG                          *SnipConverter-Changelog* *sconv-changelog*
+
+==============================================================================
+DESCRIPTION                     *SnipConverter-Description* *sconv-description*
+
+This plugin converts snippet files for neosnippet to snippet files 
+for vim-vsnip.
+
+'Cache' means list of the last modified date of the snippet files.
+
+'Cache file' means file which 'Cache' data write down as JSON format file.
+==============================================================================
+VARIABLES                            *SnipConverter-variable* *sconv-variable*
+
+  let g:snip_dirpath = []
+
+  > Path to the directory containing the snippet files for neosnippet.
+
+  let g:vsnip_path
+
+  > Path to the directory containing the snippet files for vim-vsnip.
+
+  let g:snipconv_autoload
+
+  > If it is enabled, it will automatically read the cache file
+	     and overwrite the cache file.
+
+   let g:vsnip_snippet_dirs = []
+
+   > List of user snippet directories.
+
+==============================================================================
+COMMANDS                             *SnipConverter-commands* *sconv-commands*
+
+  LoadCache
+
+  > Load cache from the cache file.
+
+  MakeCache
+
+  > Make cache data.
+
+  WriteCache
+
+  > Write cache to the cache file.
+
+  DeleteCache
+
+  > Delete cache file.
+
+  DeleteVsnipAll
+
+  > Delete all snippet files for vim-vsnip in `g:snip_path`.
+
+==============================================================================
+CHANGELOG                          *SnipConverter-Changelog* *sconv-changelog*
+
+2020/4/26 ~ v1.0.0
+==============================================================================
+
