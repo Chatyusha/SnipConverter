@@ -32,7 +32,7 @@ class SnipConverter(object):
 
     @pynvim.command('Dummy')
     def damy(self):
-        self.nvim.command("echo \"" + str(self.vars.nvim.vars['snip_tabwidth']) + "\"")
+        self.vimecho("This is Dummy Command")
 
     @pynvim.command('LoadSnip')
     def loadsnip(self): 
@@ -41,8 +41,8 @@ class SnipConverter(object):
         self.cache.LoadCache()
         diffs=self.cache.GetDiff()
         for i in diffs:
-            self.vimecho(str(i))
             self.converter.Snip2VSnip(i,self.vars.vsnip_path)
+            self.vimecho("Loaded " + str(i))
         #self.vimecho(str(diffs))
         #self.vimecho("Make Cache file and Under Development")
 
@@ -69,3 +69,10 @@ class SnipConverter(object):
         #self.vimecho(str(ls))
         for i in ls:
             subprocess.run(['rm',path+i])
+
+    @pynvim.command("UpdateSnipCache")
+    def update_cache(self):
+        self.makesnipcache()
+        self.writecache()
+
+
